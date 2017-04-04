@@ -28,6 +28,8 @@ class DataAdapter(private val context: Context, private val items: List<Data>): 
         return when(itemType) {
             ItemType.ODD -> OddViewHolder(inflater.inflate(R.layout.list_item_odd, null))
             ItemType.EVEN -> EvenViewHolder(inflater.inflate(R.layout.list_item_even, null))
+        }.also {
+            it.itemView.setOnClickListener{}
         }
     }
 
