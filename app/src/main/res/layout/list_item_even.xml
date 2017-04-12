@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:background="?android:attr/selectableItemBackground"
+    android:background="@drawable/list_item_background_even"
     android:layout_width="match_parent"
     android:layout_height="@dimen/list_item">
 
@@ -11,6 +10,8 @@
         android:text="even"
         android:paddingLeft="@dimen/medium_margin"
         android:paddingTop="@dimen/text_padding"
+        android:includeFontPadding="false"
+        android:gravity="center_vertical"
         android:textSize="@dimen/text_only_list_primary_text_size"
         android:textColor="@color/dark_text_primary_color"
         android:layout_width="match_parent"
@@ -22,6 +23,8 @@
         android:text="even"
         android:paddingLeft="@dimen/medium_margin"
         android:paddingBottom="@dimen/text_padding"
+        android:includeFontPadding="false"
+        android:gravity="center_vertical"
         android:textSize="@dimen/text_only_list_secondary_text_size"
         android:textColor="@color/dark_text_secondary_color"
         android:layout_width="match_parent"

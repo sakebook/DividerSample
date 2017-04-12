@@ -23,16 +23,18 @@ class DataAdapter(private val context: Context, private val items: List<Data>): 
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val itemType = ItemType.fromId(viewType)
         return when(itemType) {
-            ItemType.ODD -> OddViewHolder(inflater.inflate(R.layout.list_item_odd, null))
-            ItemType.EVEN -> EvenViewHolder(inflater.inflate(R.layout.list_item_even, null))
+            ItemType.ODD -> OddViewHolder(inflater.inflate(R.layout.list_item_odd, parent, false))
+            ItemType.EVEN -> EvenViewHolder(inflater.inflate(R.layout.list_item_even, parent, false))
         }.also {
-            it.itemView.setOnClickListener{}
+            it.itemView.setOnClickListener { v ->
+                android.util.Log.d(javaClass.simpleName, "${it.adapterPosition}")
+            }
         }
     }
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
     }
 }
