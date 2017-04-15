@@ -6,9 +6,18 @@ package com.sakebook.android.sample.dividersample
 enum class ItemType(val id: Int) {
     EVEN(0),
     ODD(1),
+    PRIME(2),
     ;
-
+    
     companion object {
-        fun fromId(id: Int): ItemType = ItemType.values().find { it.id == id }?: EVEN
+        val primeNumbers = listOf(2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47)
+
+        fun fromId(id: Int): ItemType {
+            return when {
+                primeNumbers.contains(id) -> PRIME
+                id % 2 == 0 -> EVEN
+                else -> ODD
+            }
+        }
     }
 }

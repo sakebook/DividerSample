@@ -22,9 +22,9 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
     }
 
-    private fun initData(): List<Data> {
+    private fun initData(): ArrayList<Data> {
         return (0 until 20).mapIndexed { index, i ->
-            Data("title: $index", "subTitle: $index")
-        }
+            Data("title: $index", "subTitle: $index", index)
+        } as ArrayList<Data>
     }
 }
