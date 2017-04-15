@@ -6,6 +6,6 @@ import android.view.View
 /**
  * Created by sakemotoshinya on 2017/04/02.
  */
-class EvenViewHolder(view: View): RecyclerView.ViewHolder(view) {
+class EvenViewHolder(view: View): RecyclerView.ViewHolder(view), NoDivider {
 
 }
