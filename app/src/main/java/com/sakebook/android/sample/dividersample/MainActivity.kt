@@ -19,11 +19,12 @@ class MainActivity : AppCompatActivity() {
         val adapter = DataAdapter(this, initData())
         recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
         recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.setHasFixedSize(true)
         recyclerView.adapter = adapter
     }
 
     private fun initData(): ArrayList<Data> {
-        return (0 until 20).mapIndexed { index, i ->
+        return (0 until 100).mapIndexed { index, i ->
             Data("title: $index", "subTitle: $index", index)
         } as ArrayList<Data>
     }

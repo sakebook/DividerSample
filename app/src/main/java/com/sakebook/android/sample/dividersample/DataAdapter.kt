@@ -38,5 +38,7 @@ class DataAdapter(private val context: Context, private val items: ArrayList<Dat
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        holder as ViewHolder<Data>
+        holder.setData(items[position])
     }
 }

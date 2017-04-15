@@ -1,12 +1,19 @@
 package com.sakebook.android.sample.dividersample
 
-import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.TextView
 
 /**
  * Created by sakemotoshinya on 2017/04/02.
  */
-class OddViewHolder(view: View): RecyclerView.ViewHolder(view), CustomDivider {
+class OddViewHolder(view: View): ViewHolder<Data>(view), CustomDivider {
+
     override val height = view.context.resources.getDimensionPixelSize(R.dimen.small_margin)
     override val drawable = R.drawable.dashed_line_divider
+
+    val textSubTitle: TextView = view.findViewById(R.id.text_sub_title) as TextView
+
+    override fun setData(t: Data) {
+        textSubTitle.text = "number: ${t.number}"
+    }
 }
