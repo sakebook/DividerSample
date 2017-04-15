@@ -3,10 +3,9 @@ package com.sakebook.android.sample.dividersample
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.PorterDuff
 import android.graphics.Rect
 import android.graphics.drawable.Drawable
+import android.support.v4.content.res.ResourcesCompat
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -35,9 +34,9 @@ class DividerItemDecoration
  * *
  * @param orientation Divider orientation. Should be [.HORIZONTAL] or [.VERTICAL].
  */
-(context: Context, orientation: Int) : RecyclerView.ItemDecoration() {
+(val context: Context, orientation: Int) : RecyclerView.ItemDecoration() {
 
-    private var mDivider: Drawable? = null
+    private val mDivider: Drawable
 
     /**
      * Current orientation. Either [.HORIZONTAL] or [.VERTICAL].
@@ -72,12 +71,12 @@ class DividerItemDecoration
 
      * @param drawable Drawable that should be used as a divider.
      */
-    fun setDrawable(drawable: Drawable) {
-        if (drawable == null) {
-            throw IllegalArgumentException("Drawable cannot be null.")
-        }
-        mDivider = drawable
-    }
+//    fun setDrawable(drawable: Drawable) {
+//        if (drawable == null) {
+//            throw IllegalArgumentException("Drawable cannot be null.")
+//        }
+//        mDivider = drawable
+//    }
 
     override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State?) {
         if (parent.layoutManager == null) {
@@ -106,18 +105,27 @@ class DividerItemDecoration
         }
 
         val childCount = parent.childCount
-        for (i in 0..childCount - 1) {
+        for (i in 0 until childCount) {
             val child = parent.getChildAt(i)
-            val vh = parent.findContainingViewHolder(child)
-            if (vh is NoDivider) {
-                continue
-            }
             parent.getDecoratedBoundsWithMargins(child, mBounds)
             val bottom = mBounds.bottom + Math.round(ViewCompat.getTranslationY(child))
-            val top = bottom - mDivider!!.intrinsicHeight
-            mDivider!!.setBounds(left, top, right, bottom)
-            mDivider!!.setColorFilter(Color.BLACK, PorterDuff.Mode.DST_OVER)
-            mDivider!!.draw(canvas)
+            val top = bottom -mDivider.intrinsicHeight
+
+            val vh = parent.findContainingViewHolder(child)
+            when(vh) {
+                is NoDivider -> {}
+                is CustomDivider -> {
+                    ResourcesCompat.getDrawable(context.resources, vh.drawable, null)?.let {
+                        val top = bottom - (vh.height + 1) // Hacked. line < inset
+                        it.setBounds(left, top, right, bottom)
+                        it.draw(canvas)
+                    }
+                }
+                else -> {
+                    mDivider.setBounds(left, top, right, bottom)
+                    mDivider.draw(canvas)
+                }
+            }
         }
         canvas.restore()
     }
@@ -138,13 +146,13 @@ class DividerItemDecoration
         }
 
         val childCount = parent.childCount
-        for (i in 0..childCount - 1) {
+        for (i in 0 until childCount) {
             val child = parent.getChildAt(i)
             parent.layoutManager.getDecoratedBoundsWithMargins(child, mBounds)
             val right = mBounds.right + Math.round(ViewCompat.getTranslationX(child))
-            val left = right - mDivider!!.intrinsicWidth
-            mDivider!!.setBounds(left, top, right, bottom)
-            mDivider!!.draw(canvas)
+            val left = right - mDivider.intrinsicWidth
+            mDivider.setBounds(left, top, right, bottom)
+            mDivider.draw(canvas)
         }
         canvas.restore()
     }
@@ -152,9 +160,14 @@ class DividerItemDecoration
     override fun getItemOffsets(outRect: Rect, view: View, parent: RecyclerView,
                                 state: RecyclerView.State?) {
         if (mOrientation == VERTICAL) {
-            outRect.set(0, 0, 0, mDivider!!.intrinsicHeight)
+            val vh = parent.getChildViewHolder(view)
+            when(vh) {
+                is NoDivider -> outRect.set(0, 0, 0, 0)
+                is CustomDivider -> outRect.set(0, 0, 0, vh.height - 1) // Hacked. line < inset
+                else -> outRect.set(0, 0, 0, mDivider.intrinsicHeight)
+            }
         } else {
-            outRect.set(0, 0, mDivider!!.intrinsicWidth, 0)
+            outRect.set(0, 0, mDivider.intrinsicWidth, 0)
         }
     }
 
