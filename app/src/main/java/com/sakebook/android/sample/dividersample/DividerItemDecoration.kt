@@ -37,6 +37,7 @@ class DividerItemDecoration
 (val context: Context, orientation: Int) : RecyclerView.ItemDecoration() {
 
     private val mDivider: Drawable
+    private val mDividerMap: HashMap<Divider, Drawable> = HashMap()
 
     /**
      * Current orientation. Either [.HORIZONTAL] or [.VERTICAL].
@@ -109,19 +110,21 @@ class DividerItemDecoration
             val child = parent.getChildAt(i)
             parent.getDecoratedBoundsWithMargins(child, mBounds)
             val bottom = mBounds.bottom + Math.round(ViewCompat.getTranslationY(child))
-            val top = bottom -mDivider.intrinsicHeight
 
             val vh = parent.findContainingViewHolder(child)
             when(vh) {
                 is NoDivider -> {}
                 is CustomDivider -> {
-                    ResourcesCompat.getDrawable(context.resources, vh.drawable, null)?.let {
-                        val top = bottom - (vh.height + 1) // Hacked. line < inset
-                        it.setBounds(left, top, right, bottom)
-                        it.draw(canvas)
-                    }
+                    val drawable = mDividerMap[vh]?: // Reuse divider
+                            ResourcesCompat.getDrawable(context.resources, vh.drawable, null)?.let {
+                                mDividerMap.put(vh, it)
+                            }
+                    val top = bottom - (vh.height + 1) // Hacked. line < inset
+                    drawable?.setBounds(left, top, right, bottom)
+                    drawable?.draw(canvas)
                 }
                 else -> {
+                    val top = bottom -mDivider.intrinsicHeight
                     mDivider.setBounds(left, top, right, bottom)
                     mDivider.draw(canvas)
                 }
