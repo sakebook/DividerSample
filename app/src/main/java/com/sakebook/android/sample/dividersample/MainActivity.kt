@@ -17,8 +17,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun initList() {
         val adapter = DataAdapter(this, initData())
-        recyclerView.addItemDecoration(DividerItemDecoration(this, DividerItemDecoration.VERTICAL))
-        recyclerView.layoutManager = LinearLayoutManager(this)
+        val layoutManager = LinearLayoutManager(this)
+        val dividerItemDecoration = DividerItemDecoration(this, layoutManager.orientation)
+        recyclerView.addItemDecoration(dividerItemDecoration)
+        recyclerView.layoutManager = layoutManager
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = adapter
     }
