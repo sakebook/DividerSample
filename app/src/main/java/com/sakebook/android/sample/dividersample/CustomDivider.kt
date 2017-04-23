@@ -5,5 +5,5 @@ package com.sakebook.android.sample.dividersample
  */
 interface CustomDivider: Divider {
     val height: Int
-    val drawable: Int
+    val drawableRes: Int
 }

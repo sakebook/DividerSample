@@ -111,12 +111,12 @@ class DividerItemDecoration
             parent.getDecoratedBoundsWithMargins(child, mBounds)
             val bottom = mBounds.bottom + Math.round(ViewCompat.getTranslationY(child))
 
-            val vh = parent.findContainingViewHolder(child)
+            val vh = parent.getChildViewHolder(child)
             when(vh) {
                 is NoDivider -> {}
                 is CustomDivider -> {
                     val drawable = mDividerMap[vh]?: // Reuse divider
-                            ResourcesCompat.getDrawable(context.resources, vh.drawable, null)?.let {
+                            ResourcesCompat.getDrawable(context.resources, vh.drawableRes, null)?.let {
                                 mDividerMap.put(vh, it)
                             }
                     val top = bottom - (vh.height + 1) // Line height < Bounds height

@@ -9,7 +9,7 @@ import android.widget.TextView
 class OddViewHolder(view: View): ViewHolder<Data>(view), CustomDivider {
 
     override val height = view.context.resources.getDimensionPixelSize(R.dimen.small_margin)
-    override val drawable = R.drawable.dashed_line_divider
+    override val drawableRes = R.drawable.dashed_line_divider
 
     val textSubTitle: TextView = view.findViewById(R.id.text_sub_title) as TextView
 
