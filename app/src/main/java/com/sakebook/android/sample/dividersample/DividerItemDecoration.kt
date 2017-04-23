@@ -79,7 +79,7 @@ class DividerItemDecoration
 //        mDivider = drawable
 //    }
 
-    override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State?) {
+    override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State?) {
         if (parent.layoutManager == null) {
             return
         }
@@ -119,7 +119,7 @@ class DividerItemDecoration
                             ResourcesCompat.getDrawable(context.resources, vh.drawable, null)?.let {
                                 mDividerMap.put(vh, it)
                             }
-                    val top = bottom - (vh.height + 1) // Hacked. line < inset
+                    val top = bottom - (vh.height + 1) // Line height < Bounds height
                     drawable?.setBounds(left, top, right, bottom)
                     drawable?.draw(canvas)
                 }
@@ -166,7 +166,7 @@ class DividerItemDecoration
             val vh = parent.getChildViewHolder(view)
             when(vh) {
                 is NoDivider -> outRect.set(0, 0, 0, 0)
-                is CustomDivider -> outRect.set(0, 0, 0, vh.height - 1) // Hacked. line < inset
+                is CustomDivider -> outRect.set(0, 0, 0, vh.height)
                 else -> outRect.set(0, 0, 0, mDivider.intrinsicHeight)
             }
         } else {
