@@ -79,7 +79,7 @@ class DividerItemDecoration
 //        mDivider = drawable
 //    }
 
-    override fun onDrawOver(c: Canvas, parent: RecyclerView, state: RecyclerView.State?) {
+    override fun onDraw(c: Canvas, parent: RecyclerView, state: RecyclerView.State?) {
         if (parent.layoutManager == null) {
             return
         }
